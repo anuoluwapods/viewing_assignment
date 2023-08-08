@@ -1,4 +1,4 @@
-from pydeta import Deta
+from deta import Deta
 import streamlit as st
 import base64
 
