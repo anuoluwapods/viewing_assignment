@@ -48,7 +48,7 @@ def display_users(users):
 
             # Display link to the uploaded file in Deta Drive
             file_name = user_data["file_name"]
-            file_url = user_drive.get_download_url(file_name)
+            file_url = user_drive.get_download_url(file_name).url
             st.write("File Download Link:")
             st.markdown(f"[Download {file_name}]({file_url})")
 
