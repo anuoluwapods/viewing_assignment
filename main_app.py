@@ -1,3 +1,4 @@
+import base64
 from deta import Deta
 import streamlit as st
 
@@ -45,15 +46,29 @@ def display_users(users):
         if "file_name" in user_data:
             st.write("Linked File:", user_data["file_name"])
             
-            # Generate the download URL directly from Deta Drive
-            file_name = user_data["file_name"]
-            file_url = user_drive.get_signed_url(file_name, max_age=600)  # Replace max_age with desired expiration time in seconds
-            
             # Display a button to trigger the file download
-            if st.button("Download " + file_name):
-                st.markdown(f'[Click here to download the file]({file_url})')
+            if st.button("Download " + user_data["file_name"]):
+                file_name = user_data["file_name"]
+                
+                # Get the file data from Deta Drive
+                file_data = user_drive.get(file_name)
+                
+                # Display the file data as a downloadable link
+                st.markdown(get_download_link(file_name, file_data), unsafe_allow_html=True)
 
         st.write("---")  # Divider between user entries
+
+def get_download_link(file_name, file_data):
+    # Encode the file data as base64
+    file_base64 = base64.b64encode(file_data).decode()
+    
+    # Create a data URI for the file
+    data_uri = f"data:application/octet-stream;base64,{file_base64}"
+    
+    # Generate a download link using the data URI
+    download_link = f'<a href="{data_uri}" download="{file_name}">Click here to download</a>'
+    
+    return download_link
 
 if __name__ == "__main__":
     main()
