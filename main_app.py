@@ -45,15 +45,13 @@ def display_users(users):
         if "file_name" in user_data:
             st.write("Linked File:", user_data["file_name"])
             
-            # Display download button for the file
-            if st.button("Download " + user_data["file_name"]):
-                # Generate the download URL directly from Deta Drive
-                file_name = user_data["file_name"]
-                
-                
-                # Display a button to trigger the file download
-                st.write("Click the button below to download the file:")
-                st.download_button("Download " + file_name, key=file_name)
+            # Generate the download URL directly from Deta Drive
+            file_name = user_data["file_name"]
+            file_url = user_drive.get_signed_url(file_name, max_age=600)  # Replace max_age with desired expiration time in seconds
+            
+            # Display a button to trigger the file download
+            if st.button("Download " + file_name):
+                st.markdown(f'[Click here to download the file]({file_url})')
 
         st.write("---")  # Divider between user entries
 
