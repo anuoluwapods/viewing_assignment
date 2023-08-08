@@ -19,34 +19,44 @@ def main():
     
     # Enter button to trigger filtering
     if st.sidebar.button("Enter"):
-        display_filtered_users(user_data_list, selected_cohort, selected_course_type)
+        filtered_users = filter_users(user_data_list, selected_cohort, selected_course_type)
+        display_users(filtered_users)
 
-def display_filtered_users(user_data_list, selected_cohort, selected_course_type):
-    # Display user information based on text input filters
+def filter_users(user_data_list, selected_cohort, selected_course_type):
+    filtered_users = []
+    
+    # Filter user data based on input criteria
     for user_data in user_data_list:
-        if (not selected_cohort or selected_cohort in user_data.get("cohort", "").lower()) and \
-           (not selected_course_type or selected_course_type in user_data.get("course_type", "").lower()):
-            st.write("Name:", user_data.get("name"))
-            st.write("Email:", user_data.get("email"))
-            st.write("Cohort:", user_data.get("cohort"))
-            st.write("Course Type:", user_data.get("course_type"))
+        if (not selected_cohort or selected_cohort.lower() in user_data.get("cohort", "").lower()) and \
+           (not selected_course_type or selected_course_type.lower() in user_data.get("course_type", "").lower()):
+            filtered_users.append(user_data)
+    
+    return filtered_users
 
-            # Check if the user has a linked file
-            if "file_name" in user_data and "file_url" in user_data:
-                st.write("Linked File:", user_data["file_name"])
-                st.write("File URL:", user_data["file_url"])
+def display_users(users):
+    # Display filtered user information
+    for user_data in users:
+        st.write("Name:", user_data.get("name"))
+        st.write("Email:", user_data.get("email"))
+        st.write("Cohort:", user_data.get("cohort"))
+        st.write("Course Type:", user_data.get("course_type"))
 
-                # Download and display the linked file
-                file_name = user_data["file_name"]
-                file = user_drive.get(file_name)
-                st.write("File Content:")
-                st.download_button(
-                    label=f"Download {file_name}",
-                    data=file.read(),
-                    file_name=file_name
-                )
+        # Check if the user has a linked file
+        if "file_name" in user_data and "file_url" in user_data:
+            st.write("Linked File:", user_data["file_name"])
+            st.write("File URL:", user_data["file_url"])
 
-            st.write("---")  # Divider between user entries
+            # Download and display the linked file
+            file_name = user_data["file_name"]
+            file = user_drive.get(file_name)
+            st.write("File Content:")
+            st.download_button(
+                label=f"Download {file_name}",
+                data=file.read(),
+                file_name=file_name
+            )
+
+        st.write("---")  # Divider between user entries
 
 if __name__ == "__main__":
     main()
