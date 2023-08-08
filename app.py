@@ -1,5 +1,6 @@
 from deta import Deta
 import streamlit as st
+import base64
 
 # Initialize Deta instance
 deta = Deta(st.secrets["deta_key"])  # Replace with your Deta project key
