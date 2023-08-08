@@ -13,13 +13,14 @@ def main():
     # Fetch user data from the database
     user_data_list = user_db.fetch().items
 
-    # Filters for cohort and course type
-    selected_cohort = st.sidebar.selectbox("Select Cohort", ["All"] + list(set(user_data["cohort"] for user_data in user_data_list)))
-    selected_course_type = st.sidebar.selectbox("Select Course Type", ["All"] + list(set(user_data["course_type"] for user_data in user_data_list)))
+    # Text input for filtering by cohort and course type
+    selected_cohort = st.sidebar.text_input("Enter Cohort:")
+    selected_course_type = st.sidebar.text_input("Enter Course Type:")
 
-    # Display user information based on filters
+    # Display user information based on text input filters
     for user_data in user_data_list:
-        if (selected_cohort == "All" or user_data["cohort"] == selected_cohort) and (selected_course_type == "All" or user_data["course_type"] == selected_course_type):
+        if (not selected_cohort or selected_cohort in user_data.get("cohort", "").lower()) and \
+           (not selected_course_type or selected_course_type in user_data.get("course_type", "").lower()):
             st.write("Name:", user_data.get("name"))
             st.write("Email:", user_data.get("email"))
             st.write("Cohort:", user_data.get("cohort"))
