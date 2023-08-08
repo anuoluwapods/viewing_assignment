@@ -49,12 +49,15 @@ def display_users(users):
             # Download and display the linked file
             file_name = user_data["file_name"]
             file = user_drive.get(file_name)
-            st.write("File Content:")
-            st.download_button(
-                label=f"Download {file_name}",
-                data=file.read(),
-                file_name=file_name
-            )
+            if file.exists():
+                st.write("File Content:")
+                st.download_button(
+                    label=f"Download {file_name}",
+                    data=file.read(),
+                    file_name=file_name
+                )
+            else:
+                st.write("File not found.")
 
         st.write("---")  # Divider between user entries
 
