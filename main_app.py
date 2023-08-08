@@ -1,6 +1,5 @@
 from deta import Deta
 import streamlit as st
-import base64
 
 # Initialize Deta instance
 deta = Deta(st.secrets["deta_key"])  # Replace with your Deta project key
@@ -12,7 +11,7 @@ def main():
     st.title("User Information Viewer")
 
     # Fetch user data from the database
-    user_data_list = user_db.fetch()
+    user_data_list = user_db.fetch().items
 
     # Filters for cohort and course type
     selected_cohort = st.sidebar.selectbox("Select Cohort", ["All"] + list(set(user_data["cohort"] for user_data in user_data_list)))
@@ -37,7 +36,7 @@ def main():
                 st.write("File Content:")
                 st.download_button(
                     label=f"Download {file_name}",
-                    data=file.content,
+                    data=file.read(),
                     file_name=file_name
                 )
 
