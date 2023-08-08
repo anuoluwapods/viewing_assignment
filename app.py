@@ -1,5 +1,3 @@
-import os
-import shutil
 from pydeta import Deta
 import streamlit as st
 import base64
