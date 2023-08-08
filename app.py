@@ -2,7 +2,7 @@ from deta import Deta
 import streamlit as st
 
 # Initialize Deta instance
-deta = Deta('YOUR_PROJECT_KEY')  # Replace with your Deta project key
+deta = Deta(st.secrets["deta_key"])  # Replace with your Deta project key
 user_db = deta.Base('assignment_collection')
 user_drive = deta.Drive('assignment')
 
