@@ -16,7 +16,12 @@ def main():
     # Text input for filtering by cohort and course type
     selected_cohort = st.sidebar.text_input("Enter Cohort:")
     selected_course_type = st.sidebar.text_input("Enter Course Type:")
+    
+    # Enter button to trigger filtering
+    if st.sidebar.button("Enter"):
+        display_filtered_users(user_data_list, selected_cohort, selected_course_type)
 
+def display_filtered_users(user_data_list, selected_cohort, selected_course_type):
     # Display user information based on text input filters
     for user_data in user_data_list:
         if (not selected_cohort or selected_cohort in user_data.get("cohort", "").lower()) and \
