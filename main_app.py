@@ -17,9 +17,6 @@ def main():
     selected_cohort = st.sidebar.text_input("Enter Cohort:")
     selected_course_type = st.sidebar.selectbox("Course Type", ["Select Option", "Excel", "PowerBI", "Tableau", "SQL", "Word File"], key='course_type')
     
-    # File upload
-    uploaded_file = st.sidebar.file_uploader("Upload File (Word, .ipynb, PowerBI, Excel, Tableau, Text)", type=["docx", "ipynb", "pbix", "xlsx", "twb", "txt"])
-    
     # Enter button to trigger filtering
     if st.sidebar.button("Enter"):
         filtered_users = filter_users(user_data_list, selected_cohort, selected_course_type)
@@ -49,18 +46,11 @@ def display_users(users):
             st.write("Linked File:", user_data["file_name"])
             st.write("File URL:", user_data["file_url"])
 
-            # Download and display the linked file
+            # Display link to the uploaded file in Deta Drive
             file_name = user_data["file_name"]
-            file = user_drive.get(file_name)
-            if file.exists():
-                st.write("File Content:")
-                st.download_button(
-                    label=f"Download {file_name}",
-                    data=file.read(),
-                    file_name=file_name
-                )
-            else:
-                st.write("File not found.")
+            file_url = user_drive.get_download_url(file_name)
+            st.write("File Download Link:")
+            st.markdown(f"[Download {file_name}]({file_url})")
 
         st.write("---")  # Divider between user entries
 
