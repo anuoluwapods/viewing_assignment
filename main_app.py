@@ -42,15 +42,15 @@ def display_users(users):
         st.write("Course Type:", user_data.get("course_type"))
 
         # Check if the user has a linked file
-        if "file_name" in user_data and "file_url" in user_data:
+        if "file_name" in user_data:
             st.write("Linked File:", user_data["file_name"])
-            st.write("File URL:", user_data["file_url"])
-
-            # Display link to the uploaded file in Deta Drive
-            file_name = user_data["file_name"]
-            file_url = user_drive.get_download_url(file_name).url
-            st.write("File Download Link:")
-            st.markdown(f"[Download {file_name}]({file_url})")
+            
+            # Display download button for the file
+            if st.button("Download " + user_data["file_name"]):
+                # Generate the download URL directly from Deta Drive
+                file_name = user_data["file_name"]
+                file_url = user_drive.get_download_url(file_name).url
+                st.markdown(f"[Download {file_name}]({file_url})")
 
         st.write("---")  # Divider between user entries
 
