@@ -49,8 +49,7 @@ def display_users(users):
             if st.button("Download " + user_data["file_name"]):
                 # Generate the download URL directly from Deta Drive
                 file_name = user_data["file_name"]
-                file_url = user_drive.get_download_url(file_name).url
-                st.markdown(f"[Download {file_name}]({file_url})")
+                st.markdown(f"[Download {file_name}]")
 
         st.write("---")  # Divider between user entries
 
