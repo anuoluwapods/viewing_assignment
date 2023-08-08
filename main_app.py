@@ -15,7 +15,10 @@ def main():
 
     # Text input for filtering by cohort and course type
     selected_cohort = st.sidebar.text_input("Enter Cohort:")
-    selected_course_type = st.sidebar.text_input("Enter Course Type:")
+    selected_course_type = st.sidebar.selectbox("Course Type", ["Select Option", "Excel", "PowerBI", "Tableau", "SQL", "Word File"], key='course_type')
+    
+    # File upload
+    uploaded_file = st.sidebar.file_uploader("Upload File (Word, .ipynb, PowerBI, Excel, Tableau, Text)", type=["docx", "ipynb", "pbix", "xlsx", "twb", "txt"])
     
     # Enter button to trigger filtering
     if st.sidebar.button("Enter"):
@@ -28,7 +31,7 @@ def filter_users(user_data_list, selected_cohort, selected_course_type):
     # Filter user data based on input criteria
     for user_data in user_data_list:
         if (not selected_cohort or selected_cohort.lower() in user_data.get("cohort", "").lower()) and \
-           (not selected_course_type or selected_course_type.lower() in user_data.get("course_type", "").lower()):
+           (selected_course_type == "Select Option" or selected_course_type.lower() == user_data.get("course_type", "").lower()):
             filtered_users.append(user_data)
     
     return filtered_users
