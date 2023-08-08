@@ -15,7 +15,7 @@ def main():
 
     # Text input for filtering by cohort and course type
     selected_cohort = st.sidebar.text_input("Enter Cohort:")
-    selected_course_type = st.sidebar.selectbox("Course Type", ["Select Option", "Excel", "PowerBI", "Tableau", "SQL", "Word File"], key='course_type')
+    selected_course_type = st.sidebar.selectbox("Course Type", ["Select Option", "Excel", "Python", "PowerBI", "Tableau", "SQL", "Word File"], key='course_type')
     
     # Enter button to trigger filtering
     if st.sidebar.button("Enter"):
